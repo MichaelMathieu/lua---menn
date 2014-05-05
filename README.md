@@ -35,7 +35,7 @@ Notes:
 * If, at some point, you use large input or minibatch, and want to use
   smaller ones later, you should call inferenceMode again, or the memory won't
   be freed :
-  ```
+```
 net:inferenceMode()
 
 local input_BIG = torch.Tensor(256, 42)
