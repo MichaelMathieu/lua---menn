@@ -32,4 +32,19 @@ local gradInput = net:backward(input, gradOutput)
 Notes:
 ======
 
-* For now, do NOT use ParallelTable modules (and try not to use Parallel either, it is not tested.
+* If, at some point, you use large input or minibatch, and want to use
+  smaller ones later, you should call inferenceMode again, or the memory won't
+  be freed :
+  ```
+net:inferenceMode()
+
+local input_BIG = torch.Tensor(256, 42)
+net:forward(input_BIG) -- a lot of memory is used
+
+local input_small = torch.Tensor(4, 42)
+net:forward(input_small) -- a lot of memory is *still* used
+
+net:inferenceMode()
+net:forward(input_small) -- a small amount of memory is used
+```
+* For now, do NOT use ParallelTable modules
