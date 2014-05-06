@@ -4,7 +4,7 @@ lua---menn
 Memory Efficient Neural Networks for Torch7
 
 Usage:
-======
+------
 
 Create and use as a nn.Sequential :
 ```
@@ -29,8 +29,20 @@ local gradOutput = ...
 local gradInput = net:backward(input, gradOutput)
 ```
 
+Tested compatible modules:
+--------------------------
+
+On CPU:
+
+* nn.Linear
+* nn.Threshold
+* nn.LogSoftMax
+* nn.SpatialConvolution
+* nn.SpatialMaxPooling
+* nn.SpatialZeroPadding
+
 Notes:
-======
+------
 
 * If, at some point, you use large input or minibatch, and want to use
   smaller ones later, you should call inferenceMode again, or the memory won't
