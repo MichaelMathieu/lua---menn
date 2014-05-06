@@ -6,8 +6,10 @@ Memory Efficient Neural Networks for Torch7
 Installation:
 -------------
 
+```
 cd lua---menn
 torch-rocks make
+```
 
 Usage:
 ------
