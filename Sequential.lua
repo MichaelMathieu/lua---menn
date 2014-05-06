@@ -4,6 +4,7 @@ local Sequential, parent = torch.class('menn.Sequential', 'nn.Module')
 function Sequential:__init()
    self.outputs_tmp = {torch.Tensor(), torch.Tensor()}
    self.mode = "training"
+   self.tensor_type = torch.Tensor()
    self.modules = {}
 end
 
@@ -24,11 +25,24 @@ function Sequential:get(index)
    return self.modules[index]
 end
 
+function Sequential:type(type)
+   self.tensor_type = self.tensor_type:type(type)
+   self.outputs_tmp = {self.outputs_tmp[1]:type(type),
+		       self.outputs_tmp[2]:type(type)}
+   self.output = self.output:type(type)
+   self.gradInput = self.gradInput:type(type)
+   for _,module in ipairs(self.modules) do
+      module:type(type)
+   end
+   return self
+end
+   
+
 function Sequential:inferenceMode()
-   self.outputs_tmp = {torch.Tensor(), torch.Tensor()}
+   self.outputs_tmp = {self.tensor_type:new(), self.tensor_type:new()}
    for i = 1,#self.modules do
-      self.modules[i].output = torch.Tensor()
-      self.modules[i].gradInput = torch.Tensor()
+      self.modules[i].output = self.tensor_type:new()
+      self.modules[i].gradInput = self.tensor_type:new()
    end
    self.mode = "inference"
    collectgarbage()
@@ -127,7 +141,7 @@ function Sequential:reset(stdv)
    for i=1,#self.modules do
       self.modules[i]:reset(stdv)
    end
-end
+end   
 
 function Sequential:parameters()
    local function tinsert(to, from)
