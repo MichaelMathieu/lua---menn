@@ -40,8 +40,6 @@ local gradInput = net:backward(input, gradOutput)
 Tested compatible modules:
 --------------------------
 
-On CPU:
-
 * nn.Linear
 * nn.Threshold
 * nn.LogSoftMax
