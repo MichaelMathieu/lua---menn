@@ -8,6 +8,13 @@ function Sequential:__init()
    self.modules = {}
 end
 
+function Sequential:empty()
+   self.outputs_tmp[1]:resize()
+   self.outputs_tmp[1]:storage():resize(0)
+   self.outputs_tmp[2]:resize()
+   self.outputs_tmp[2]:storage():resize(0)
+end
+
 function Sequential:add(module)
    if #self.modules == 0 then
       self.gradInput = module.gradInput
